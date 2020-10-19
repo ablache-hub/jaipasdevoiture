@@ -3,34 +3,60 @@ package co.simplon;
 import java.util.ArrayList;
 
 public class Agence {
-    String ville;
-    ArrayList<Voiture> stock;
 
-    public Agence (String ville) {
-        this.ville = ville;
-        this.stock = new ArrayList<Voiture>();
+    static Agence agenceNantes;
+
+    String nom;
+    String nomCommercial;
+    Adresse adresse;
+    ArrayList<Vehicule> stockDeVehicules;
+
+    Agence(String nom, String nomCommercial) {
+        this.nom = nom;
+        this.nomCommercial = nomCommercial;
+        this.stockDeVehicules = new ArrayList<Vehicule>();
     }
 
-    void ajouterVoitureDansStock(Voiture voiture) {
-        this.stock.add(voiture);
-        System.out.println(voiture.marque + " " + voiture.couleur + " ajouté");
+    void ajouterAdresse(Adresse adresse) {
+        this.adresse =adresse;
+    }
+
+    void ajouterVehicule(Vehicule vehicule){
+        this.stockDeVehicules.add(vehicule);
     }
 
     void afficherStock(){
-        for (Voiture voiture : stock) {
-            System.out.println(voiture.getChaine());
+        System.out.println("Stock");
+        for (Vehicule vehicule : stockDeVehicules) {
+            System.out.println(vehicule);
+            vehicule.disponible = true;
         }
     }
 
-    String getChaine(){
-        return "Agence de " + this.ville;
+    public String toString() {
+        return "agence: " + this.nom + " - " + this.nomCommercial
+                + " - " + this.adresse.ville;
     }
 
-    void rentrerDuStock(){
-        Voiture renault = new Voiture("Renault","noire");
-       // System.out.println(renault.getChaine());
-        Voiture ferrari = new Voiture("Ferrari", "rouge");
-        this.ajouterVoitureDansStock(renault);
-        this.ajouterVoitureDansStock(ferrari);
+    static void creerAgenceNantes(){
+        agenceNantes = new Agence("Agence de Nantes", "Gino");
+        Adresse adresse = new Adresse("rue des moulins", "44200", "Nantes");
+        agenceNantes.ajouterAdresse(adresse);
+        System.out.println(agenceNantes);
+
+        Voiture voitPetitPrix = new Voiture("Dacia","blanc",5,"essence",30);
+        Voiture voitureChere = new Voiture("Audi","rouge",5,"essence",75);
+        agenceNantes.ajouterVehicule(voitPetitPrix);
+        agenceNantes.ajouterVehicule(voitureChere);
+        // System.out.println(voitPetitPrix);
+
+        agenceNantes.afficherStock();
+    }
+
+    static void reserverPremierVehicule(Client client) {
+        Vehicule voiture = agenceNantes.stockDeVehicules.get(0);
+        client.reservation = voiture;
+        voiture.disponible = false;
+        agenceNantes.afficherStock();
     }
 }

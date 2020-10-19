@@ -1,23 +1,20 @@
-package co.simplon
-;
+package co.simplon;
 
-/**
- * Voiture
- */
-public class Voiture {
-    String marque;
-    String couleur;
-    int niveauEssence;
-    boolean reservoireVide;
-    boolean reservee;
-    
-    public Voiture (String marque, String couleur) {
-        this.marque = marque;
-        this.couleur = couleur;
-        this.reservee = false;
+public class Voiture extends Vehicule {
+    String typeEnergie;
+    int nivEnergie;
+    int kilometrage;
+    int nbPlace;
+
+    Voiture(String marque, String couleur, int nbPlace, String typeEnergie, int energieMax) {
+        super(marque, couleur, energieMax);
+        this.typeEnergie = typeEnergie;
+        this.nbPlace = nbPlace;
+        this.nivEnergie = 0;
+        this.kilometrage = 0;
     }
 
-    public String getChaine() {
-        return "marque: " + this.marque + ", couleur: "+ this.couleur;
+    public String toString() {
+        return "voiture: " + this.marque + "-" + this.couleur + "-" + (this.disponible?"oui":"non");
     }
 }
